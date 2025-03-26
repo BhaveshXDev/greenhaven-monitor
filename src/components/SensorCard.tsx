@@ -9,9 +9,10 @@ import { Thermometer, Droplets, Wind } from "lucide-react";
 interface SensorCardProps {
   sensor: SensorData;
   className?: string;
+  onClick?: (sensor: SensorData) => void;
 }
 
-const SensorCard = ({ sensor, className }: SensorCardProps) => {
+const SensorCard = ({ sensor, className, onClick }: SensorCardProps) => {
   const percentage = Math.min(
     100,
     Math.max(0, ((sensor.value - sensor.min) / (sensor.max - sensor.min)) * 100)
@@ -67,8 +68,15 @@ const SensorCard = ({ sensor, className }: SensorCardProps) => {
     }
   };
 
+  const handleClick = () => {
+    if (onClick) onClick(sensor);
+  };
+
   return (
-    <Card className={cn("overflow-hidden", className)}>
+    <Card 
+      className={cn("overflow-hidden", className)}
+      onClick={handleClick}
+    >
       <CardHeader className="pb-2">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">

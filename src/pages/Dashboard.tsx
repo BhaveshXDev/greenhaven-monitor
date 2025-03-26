@@ -9,6 +9,7 @@ import ChartCard from "@/components/ChartCard";
 import { api } from "@/lib/api";
 import { SensorData, Device } from "@/lib/mock-data";
 import { toast } from "sonner";
+import { cn } from "@/lib/utils";
 
 const Dashboard = () => {
   const [sensorData, setSensorData] = useState<SensorData[]>([]);
@@ -79,6 +80,10 @@ const Dashboard = () => {
 
   const systemStatus = getSystemStatus();
 
+  const handleSensorClick = (sensor: SensorData) => {
+    setSelectedSensor(sensor);
+  };
+
   return (
     <div className="space-y-6 animate-fade-in">
       <div className="flex items-center justify-between">
@@ -112,8 +117,11 @@ const Dashboard = () => {
               <SensorCard
                 key={sensor.id}
                 sensor={sensor}
-                className="cursor-pointer hover:border-primary/20 transition-all duration-200"
-                onClick={() => setSelectedSensor(sensor)}
+                className={cn(
+                  "cursor-pointer hover:border-primary/20 transition-all duration-200",
+                  selectedSensor?.id === sensor.id && "border-primary/40"
+                )}
+                onClick={() => handleSensorClick(sensor)}
               />
             ))}
           </div>

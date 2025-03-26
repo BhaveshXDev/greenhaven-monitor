@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
@@ -6,7 +5,7 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Crop } from "@/lib/mock-data";
-import { api } from "@/lib/api";
+import { firebaseApi } from "@/lib/firebase-api";
 import { toast } from "sonner";
 import CropCard from "@/components/CropCard";
 import { Thermometer, Droplets, Calendar, MapPin, Loader2 } from "lucide-react";
@@ -23,7 +22,7 @@ const CropManagement = () => {
     const fetchCrops = async () => {
       setIsLoading(true);
       try {
-        const data = await api.getCrops();
+        const data = await firebaseApi.getCrops();
         setCrops(data);
       } catch (error) {
         toast.error("Failed to load crop data");
@@ -37,7 +36,7 @@ const CropManagement = () => {
 
   const openCropDetails = async (cropId: string) => {
     try {
-      const crop = await api.getCropById(cropId);
+      const crop = await firebaseApi.getCropById(cropId);
       setSelectedCrop(crop);
       setIsDialogOpen(true);
     } catch (error) {
@@ -45,7 +44,6 @@ const CropManagement = () => {
     }
   };
 
-  // Calculate growth progress
   const calculateGrowthProgress = (crop: Crop) => {
     if (crop.status === "harvested") return 100;
     

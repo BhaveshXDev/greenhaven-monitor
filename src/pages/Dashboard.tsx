@@ -6,7 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import SensorCard from "@/components/SensorCard";
 import DeviceCard from "@/components/DeviceCard";
 import ChartCard from "@/components/ChartCard";
-import { api } from "@/lib/api";
+import { firebaseApi } from "@/lib/firebase-api"; // Changed from api to firebaseApi
 import { SensorData, Device } from "@/lib/mock-data";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
@@ -22,8 +22,8 @@ const Dashboard = () => {
       setIsLoading(true);
       try {
         const [sensorData, deviceData] = await Promise.all([
-          api.getSensorData(),
-          api.getDevices(),
+          firebaseApi.getSensorData(), // Changed from api to firebaseApi
+          firebaseApi.getDevices(), // Changed from api to firebaseApi
         ]);
         
         setSensorData(sensorData);
@@ -45,7 +45,7 @@ const Dashboard = () => {
     // Poll for new sensor data every 30 seconds
     const interval = setInterval(async () => {
       try {
-        const newSensorData = await api.getSensorData();
+        const newSensorData = await firebaseApi.getSensorData(); // Changed from api to firebaseApi
         setSensorData(newSensorData);
       } catch (error) {
         console.error("Failed to refresh sensor data:", error);
